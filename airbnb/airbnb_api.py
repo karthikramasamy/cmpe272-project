@@ -46,11 +46,7 @@ def get_reviews(listing_id):
        """
     try:
         reviews = airbnb_data.get_reviews_by_listing_id(get_db(), listing_id)
-        if reviews:
-            return jsonify(reviews)
-        else:
-            return jsonify_error("No reviews found for the given listing_id", 404)
-
+        return jsonify(reviews)
     except Exception as ex:
         print(ex)
         return jsonify_error("Error while retrieving the reviews by listing_id", 500)
