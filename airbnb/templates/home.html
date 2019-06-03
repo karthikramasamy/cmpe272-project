@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+  <title>AMK Airbnb</title>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AMK Airbnb" />
+  <meta name="author" content="Karthik Ramasamy" />
+
+  <link rel="icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/resources/css/default.css" />
+
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="container">
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/"><img class="companylogo hidden-xs" alt="Logo" src="/static/logo.png" />AMK Airbnb</a>
+        
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/"><span class="fas fa-home"></span></a>
+          </li>
+        </ul>
+
+
+        {% if userinfo %}
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item">
+                    <a class="nav-link" href="/logout"><span class="fas fa-signout-alt"></span> Logout</a>
+            </li>
+            <li><div class="photo-outer hidden-xs"><img class="user-photo" src="{{userinfo['picture']}}" alt="{{userinfo['name']}}" title="{{userinfo['name']}}" /></div></li>
+        </ul>
+        {% endif %}
+
+        {% if not userinfo %}
+          <ul class="nav navbar-nav navbar-right">
+              <li class="nav-item">
+                      <a class="nav-link" href="/login"><span class="fas fa-signin-alt"></span> Login</a>
+              </li>
+          </ul>
+        {% endif %}
+      </nav>
+    </div>
+  </div>
+
+  <div class="px-4">
+    <div class="jumbotron">
+      <h3>Welcome to AMK Airbnb!</h3>
+      <br />
+      <p>You can find the current Airbnb listings in Australia in the table below.</p>
+    </div>
+
+    <script type="text/javascript">
+      $( document ).ready(function(){
+          $('#listingList').DataTable(
+                {
+                  "paging"	: true,
+                  "ordering"	: true,
+                  "searching"	: true,
+                  "info" 		: true,
+                  "autoWidth"	: false,
+          
+                  "lengthMenu": [[25, 50, 100, 500, -1],[25, 50, 100, 500, "All" ]],
+                  "order"		: [[ 0, "asc"]],
+  
+                  "ajax": {
+                          "url": "/api/v1/listings",
+                          "dataType": "json",
+                          "dataSrc": "",
+                          "contentType":"application/json"
+                        },
+  
+                  "columns" : [
+                    {"data" : '_id', "title" : 'Listing ID', "render": 
+                              function ( data, type, row, meta ) {
+                                if(type === 'display'){
+                                  return $('<a></a>')
+                                    .attr('href', '/listings/' + data)
+                                    .text(data)
+                                    .wrap('<div></div>')
+                                    .parent()
+                                    .html();
+                                } else {
+                                  return data;
+                                }
+                              }},
+                    {"data" : 'name', "title" : 'Title'},
+                    {"data" : 'city', "title" : 'City'},
+                    {"data" : 'state', "title" : 'State'},
+                    {"data" : 'zipcode', "title" : 'Zip Code', "className" : "hidden-xs hidden-sm"},
+                    {"data" : 'price', "title" : 'Price', "className" : "hidden-xs hidden-sm"},
+                    {"data" : 'room_type', "title" : 'Room Type', "className" : "hidden-xs hidden-sm"},
+                    {"data" : 'host_name', "title" : 'Host Name', "className" : "hidden-xs hidden-sm"},
+                    {"data" : 'id', "title" : 'Details', "render": 
+                              function ( data, type, row, meta ) {
+                                if(type === 'display'){
+                                  return $('<a></a>')
+                                    .attr('href', '/details/' + data)
+                                    .text('More...')
+                                    .wrap('<div></div>')
+                                    .parent()
+                                    .html();
+                                } else {
+                                  return data;
+                                }
+                              }}
+                  ]
+                });
+      });
+    </script>
+    
+    <div>
+      <table id="listingList" class="table table-striped table-hover">
+        <thead><tr></tr></thead>
+        <tbody><tr></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <br />
+  <br />
+
+  <footer>
+    <div id="footer" class="container text-muted" align="center">
+      © 2019 | Developed and supported by Team AMK
+      <br />
+    </div>
+  </footer>
+</body>
+
+</html>
