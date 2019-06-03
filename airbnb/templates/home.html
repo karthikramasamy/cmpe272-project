@@ -84,7 +84,7 @@
                         },
   
                   "columns" : [
-                    {"data" : '_id', "title" : 'ID', "render": 
+                    {"data" : '_id', "title" : 'Listing ID', "render": 
                               function ( data, type, row, meta ) {
                                 if(type === 'display'){
                                   return $('<a></a>')
@@ -97,7 +97,7 @@
                                   return data;
                                 }
                               }},
-                    {"data" : 'name', "title" : 'Name'},
+                    {"data" : 'name', "title" : 'Title'},
                     {"data" : 'city', "title" : 'City'},
                     {"data" : 'state', "title" : 'State'},
                     {"data" : 'zipcode', "title" : 'Zip Code', "className" : "hidden-xs hidden-sm"},
@@ -109,7 +109,7 @@
                                 if(type === 'display'){
                                   return $('<a></a>')
                                     .attr('href', '/details/' + data)
-                                    .text('Details...')
+                                    .text('More...')
                                     .wrap('<div></div>')
                                     .parent()
                                     .html();
