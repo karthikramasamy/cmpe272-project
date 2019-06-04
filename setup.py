@@ -8,7 +8,7 @@ with io.open('README.rst', 'rt', encoding='utf8') as f:
 setup(
     name='airbnb',
     version='1.0.0',
-    url='https://github.com/karthikramasamy/cmpe-272/',
+    url='https://github.com/karthikramasamy/cmpe272-project/',
     license='BSD',
     maintainer='Karthik Ramasamy',
     description='The basic airbnb app built for the SJSU CMPE-272 Spring 2019 course.',
